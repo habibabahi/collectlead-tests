@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "acd3c087-4993-470b-a2ad-9f81143e7de4",
+		"name": "CLT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36847164"
+	},
+	"item": [
+		{
+			"name": "auto leadTrans LBCProtocol",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Vérifie que la requête est bien exécutée avec un statut HTTP 200\r",
+							"pm.test(\"Le lead est bien transmis\", function () {\r",
+							"    pm.response.to.have.status(200);// Vérifie que le code de statut est 200\r",
+							"    pm.response.to.be.json;// Vérifie que la réponse est au format JSON\r",
+							"    let responseData = pm.response.json();// Récupère la réponse JSON\r",
+							"    pm.expect(responseData.success).to.eql(true);// Vérifie que 'success' est vrai dans la réponse\r",
+							"});\r",
+							"\r",
+							"// Vérifie que les données envoyées respectent la structure LBCProtocol\r",
+							"pm.test(\"Les données envoyées respectent le protocole LBCProtocol\", function () {\r",
+							"    let requestData = JSON.parse(pm.request.body.raw); // Récupère les données envoyées dans la requête\r",
+							"    pm.expect(requestData).to.have.all.keys(\"nom\", \"prenom\", \"email\", \"telephone\"); // Vérifie que toutes les clés sont présentes\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-length": true,
+					"host": true,
+					"user-agent": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nom\":\"Dupont\",\r\n    \"prenom\":\"jean\",\r\n    \"email\":\"jean.dupont@example.com\",\r\n    \"telephone\":\"0601020304\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadbecomescustomer.ai/leads",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadbecomescustomer",
+						"ai"
+					],
+					"path": [
+						"leads"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
